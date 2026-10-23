@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="760" viewBox="0 0 1600 760" font-family="Arial, Helvetica, sans-serif">
+<defs>
+<marker id="ar" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#333"/></marker>
+<marker id="al" markerWidth="12" markerHeight="12" refX="2" refY="6" orient="auto"><path d="M12,0 L0,6 L12,12 z" fill="#333"/></marker>
+</defs>
+<rect width="1600" height="760" fill="#fff"/>
+<g font-size="24" text-anchor="middle">
+<!-- power -->
+<rect x="60" y="50" width="300" height="110" rx="12" fill="#FFF4D6" stroke="#B7791F" stroke-width="3"/>
+<text x="210" y="98" font-weight="bold">18650 Li-ion cell</text><text x="210" y="130">3.7 V, 1200 mAh</text>
+<rect x="450" y="50" width="240" height="110" rx="12" fill="#FFF4D6" stroke="#B7791F" stroke-width="3"/>
+<text x="570" y="98" font-weight="bold">Rocker switch</text><text x="570" y="130">ON / OFF</text>
+<line x1="360" y1="105" x2="446" y2="105" stroke="#333" stroke-width="3" marker-end="url(#ar)"/>
+<polyline points="690,105 880,105 880,246" fill="none" stroke="#333" stroke-width="3" marker-end="url(#ar)"/>
+<text x="960" y="200" font-size="20" fill="#444">to 5V pin</text>
+<!-- sensors -->
+<rect x="60" y="270" width="360" height="130" rx="12" fill="#E3F0FB" stroke="#1F4E79" stroke-width="3"/>
+<text x="240" y="322" font-weight="bold">HC-SR04 ultrasonic sensor</text><text x="240" y="356">obstacle distance (2–400 cm)</text>
+<line x1="424" y1="335" x2="716" y2="335" stroke="#333" stroke-width="3" marker-end="url(#ar)" marker-start="url(#al)"/>
+<text x="570" y="320" font-size="20" fill="#444">Trig D5 → / ← Echo D6</text>
+<rect x="40" y="500" width="250" height="130" rx="12" fill="#E3F0FB" stroke="#1F4E79" stroke-width="3"/>
+<text x="165" y="552" font-weight="bold">Moisture probe</text><text x="165" y="586">at cane tip</text>
+<line x1="290" y1="565" x2="356" y2="565" stroke="#333" stroke-width="3" marker-end="url(#ar)"/>
+<rect x="360" y="500" width="240" height="130" rx="12" fill="#E3F0FB" stroke="#1F4E79" stroke-width="3"/>
+<text x="480" y="552" font-weight="bold">LM393 module</text><text x="480" y="586">resistance → voltage</text>
+<line x1="600" y1="565" x2="716" y2="565" stroke="#333" stroke-width="3" marker-end="url(#ar)"/>
+<text x="658" y="548" font-size="20" fill="#444">A0</text>
+<!-- controller -->
+<rect x="720" y="250" width="330" height="400" rx="16" fill="#1F4E79" stroke="#0D2B47" stroke-width="3"/>
+<text x="885" y="400" fill="#fff" font-size="30" font-weight="bold">Arduino Nano</text>
+<text x="885" y="440" fill="#fff">ATmega328P, 16 MHz</text>
+<text x="885" y="500" fill="#D9EAF7" font-size="20">measures distance,</text>
+<text x="885" y="528" fill="#D9EAF7" font-size="20">reads moisture,</text>
+<text x="885" y="556" fill="#D9EAF7" font-size="20">chooses the alert</text>
+<!-- outputs -->
+<line x1="1050" y1="345" x2="1176" y2="345" stroke="#333" stroke-width="3" marker-end="url(#ar)"/>
+<text x="1112" y="330" font-size="20" fill="#444">D2</text>
+<rect x="1180" y="280" width="370" height="130" rx="12" fill="#E6F4EA" stroke="#2F7D32" stroke-width="3"/>
+<text x="1365" y="330" font-weight="bold">Active buzzer</text><text x="1365" y="364" font-size="20">continuous = water; beeps = obstacle</text>
+<line x1="1050" y1="555" x2="1176" y2="555" stroke="#888" stroke-width="3" stroke-dasharray="10,8" marker-end="url(#ar)"/>
+<text x="1112" y="540" font-size="20" fill="#888">D3</text>
+<rect x="1180" y="490" width="370" height="130" rx="12" fill="#F5F5F5" stroke="#999" stroke-width="3" stroke-dasharray="12,8"/>
+<text x="1365" y="540" font-weight="bold" fill="#777">Vibration motor</text><text x="1365" y="574" font-size="20" fill="#777">planned (via IRLZ44N MOSFET)</text>
+</g>
+<text x="800" y="725" font-size="20" text-anchor="middle" fill="#555">Solid lines: built in the prototype. Dashed lines: planned for the final submission.</text>
+</svg>
