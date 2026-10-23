@@ -26,7 +26,8 @@ and block diagram, and the bill (for cost questions).
 2. Tools → Port → the COM port that appears when you plug the Nano in.
 3. Click Upload. If it fails with `not in sync`, change the Processor to *ATmega328P (Old Bootloader)*.
 4. If there is no port at all, install the **CH340 driver** (clone Nanos use it).
-5. Keep the battery switch **OFF** while USB is connected.
+5. Keep the battery switch **OFF** while USB is connected. The battery goes straight to the 5V pin,
+   so with the switch on, USB power would flow back into the Li-ion cell.
 
 ## C. 1–2 minute speech
 
@@ -114,9 +115,11 @@ and block diagram, and the bill (for cost questions).
     readings and calibrating would help.
 23. *The probe corrodes. How will you fix it?* Power the probe only while reading (from a digital
     pin), or switch to a capacitive sensor with no exposed metal.
-24. *Can the Nano run on 3.7 V?* It is designed for 5 V. A single Li-ion cell (3.0–4.2 V) is
-    marginal for 16 MHz and for the HC-SR04. The proper fix is a 5 V boost converter or two cells
-    in series into VIN. *(Answer based on what you find in checklist step 4.)*
+24. *You connected a 3.7 V battery to the 5V pin. Is that okay?* It works in our tests, because the
+    ATmega328P and our HC-SR04 version both run below 5 V. It isn't ideal: as the cell drains, the voltage
+    drops and readings can get unreliable, and there is no low-battery cut-off. VIN would be wrong,
+    because its regulator needs about 7 V. The proper fix is a 3.7 V → 5 V boost converter, or two cells in
+    series (7.4 V) into VIN.
 
 **Other questions to expect:** why PVC pipe (light, cheap, hollow for wires); why not an IR
 sensor (sunlight interferes, shorter range, depends on colour); why not a Raspberry Pi

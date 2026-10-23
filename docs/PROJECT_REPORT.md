@@ -81,7 +81,7 @@ A PVC-pipe cane fitted with:
 ```
                    +----------------------+
  18650 cell ──► Rocker ──►  Power to Nano   |
- (3.7 V)        switch     (pin [to verify])|
+ (3.7 V)        switch     (5V pin)        |
                    |                        |
  HC-SR04  ──Trig(D5)/Echo(D6)──►            |
  ultrasonic                 |  ARDUINO NANO |──D2──► Active buzzer
@@ -106,7 +106,7 @@ Serial Monitor test in `REVIEW1_PREP.md`.
 | LM393 VCC / GND | 5V / GND | red / brown |
 | Probe ↔ LM393 | 2-pin | purple / grey |
 | Buzzer + / – | D2 / GND | [to verify] |
-| Battery + | via switch → **5V or VIN [to verify]** | red |
+| Battery + | via rocker switch → **5V pin** (confirmed) | red |
 
 ## 10. Working Principle
 
@@ -188,8 +188,11 @@ surface as wet.
 - The moisture probe detects water only when the tip **touches** it, not before.
 - An exposed resistive probe corrodes over time because DC current flows through it in water.
 - A buzzer alert can be hard to hear in noisy traffic, and it is not private.
-- Single 3.7 V cell: the Nano and the sensor are designed for 5 V, so voltage margin is a concern
-  **[to verify]**. There is no on-board charging or low-battery warning.
+- A single 3.7 V cell feeds the Nano's 5V pin directly (no regulator). This works in our test, but the Nano
+  and the sensor are designed for 5 V, so as the cell drains below about 3.3 V the readings can become
+  unreliable. There is no on-board charging, low-battery warning or over-discharge cut-off.
+- USB and the battery must never be connected at the same time: USB 5 V would flow back into the
+  cell through the 5V rail.
 - Not tested yet with real users or outdoors.
 
 ## 15. Future Enhancements (not built)
