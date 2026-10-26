@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="780" viewBox="0 0 1700 780" font-family="Arial, Helvetica, sans-serif" font-size="22">
+<defs><marker id="ar" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#333"/></marker></defs>
+<rect width="1700" height="780" fill="#fff"/>
+<g stroke-width="3">
+<!-- inputs -->
+<rect x="40" y="80" width="280" height="90" rx="8" fill="#FFF4D6" stroke="#B7791F"/>
+<rect x="40" y="600" width="280" height="90" rx="8" fill="#FFF4D6" stroke="#B7791F"/>
+<!-- ops -->
+<ellipse cx="480" cy="125" rx="90" ry="42" fill="#E3F0FB" stroke="#1F4E79"/>
+<ellipse cx="720" cy="125" rx="80" ry="42" fill="#E3F0FB" stroke="#1F4E79"/>
+<ellipse cx="1010" cy="125" rx="130" ry="42" fill="#E3F0FB" stroke="#1F4E79"/>
+<ellipse cx="1010" cy="320" rx="140" ry="42" fill="#E3F0FB" stroke="#1F4E79"/>
+<ellipse cx="1010" cy="500" rx="165" ry="42" fill="#E3F0FB" stroke="#1F4E79"/>
+<ellipse cx="490" cy="645" rx="110" ry="42" fill="#E3F0FB" stroke="#1F4E79"/>
+<rect x="1250" y="240" width="210" height="320" rx="14" fill="#1F4E79" stroke="#0D2B47"/>
+<!-- outputs -->
+<rect x="1520" y="300" width="160" height="90" rx="8" fill="#E6F4EA" stroke="#2F7D32"/>
+<rect x="1520" y="450" width="160" height="90" rx="8" fill="#E6F4EA" stroke="#2F7D32"/>
+</g>
+<g text-anchor="middle">
+<text x="180" y="118" font-weight="bold">t: echo time (µs)</text><text x="180" y="148" font-size="18">pulseIn(D6)</text>
+<text x="180" y="638" font-weight="bold">m: ADC value</text><text x="180" y="668" font-size="18">analogRead(A0), 0–1023</text>
+<text x="480" y="133" font-weight="bold">× 0.034</text>
+<text x="720" y="133" font-weight="bold">÷ 2</text>
+<text x="1010" y="133" font-weight="bold">0 &lt; d &lt; 50 ?</text>
+<text x="1010" y="328" font-weight="bold">constrain(d, 2, 50)</text>
+<text x="1010" y="508" font-weight="bold">map(dc: 2–50 → 50–400)</text>
+<text x="490" y="653" font-weight="bold">m &lt; 500 ?</text>
+<text x="1355" y="300" fill="#fff" font-weight="bold">Priority</text><text x="1355" y="328" fill="#fff" font-weight="bold">select</text>
+<text x="1355" y="380" fill="#D9EAF7" font-size="17">wet → CONTINUOUS</text>
+<text x="1355" y="410" fill="#D9EAF7" font-size="17">else near → PULSE</text>
+<text x="1355" y="440" fill="#D9EAF7" font-size="17">(50 ms on, g off)</text>
+<text x="1355" y="470" fill="#D9EAF7" font-size="17">else → OFF</text>
+<text x="1600" y="340" font-weight="bold">Buzzer</text><text x="1600" y="368" font-size="18">pin D2</text>
+<text x="1600" y="490" font-weight="bold">Serial</text><text x="1600" y="518" font-size="18">d, m, state</text>
+</g>
+<g stroke="#333" stroke-width="3" fill="none" marker-end="url(#ar)">
+<line x1="320" y1="125" x2="386" y2="125"/>
+<line x1="570" y1="125" x2="636" y2="125"/>
+<line x1="800" y1="125" x2="876" y2="125"/>
+<polyline points="720,167 720,320 866,320"/>
+<line x1="1010" y1="362" x2="1010" y2="454"/>
+<line x1="320" y1="645" x2="376" y2="645"/>
+<polyline points="1140,125 1355,125 1355,236"/>
+<line x1="1175" y1="500" x2="1246" y2="500"/>
+<polyline points="600,645 1355,645 1355,564"/>
+<line x1="1460" y1="345" x2="1516" y2="345"/>
+<line x1="1460" y1="495" x2="1516" y2="495"/>
+</g>
+<g font-size="19" fill="#B23" font-style="italic" text-anchor="middle">
+<text x="353" y="110">t</text><text x="603" y="110">t·0.034</text><text x="838" y="110">d (cm)</text>
+<text x="745" y="250" text-anchor="start">d</text><text x="1030" y="415" text-anchor="start">dc</text>
+<text x="1250" y="110">near</text><text x="1210" y="485">g (ms)</text><text x="348" y="630">m</text><text x="900" y="630">wet</text>
+<text x="1488" y="330">mode</text>
+</g>
+<text x="850" y="755" text-anchor="middle" font-size="18" fill="#555">Rectangles: inputs/outputs · ellipses: operations · red labels: intermediate variables. Repeats every loop (~30 ms + beep time).</text>
+</svg>

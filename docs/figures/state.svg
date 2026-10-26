@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820" font-family="Arial, Helvetica, sans-serif" font-size="22">
+<defs><marker id="ar" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#333"/></marker></defs>
+<rect width="1600" height="820" fill="#fff"/>
+<g stroke-width="3">
+<rect x="40" y="350" width="150" height="100" rx="50" fill="#EEE" stroke="#666"/>
+<rect x="290" y="340" width="210" height="120" rx="40" fill="#FFF4D6" stroke="#B7791F"/>
+<rect x="620" y="330" width="240" height="140" rx="40" fill="#1F4E79" stroke="#0D2B47"/>
+<rect x="1060" y="90" width="330" height="120" rx="40" fill="#FDECEA" stroke="#C62828"/>
+<rect x="1060" y="340" width="330" height="120" rx="40" fill="#FFF3E0" stroke="#EF6C00"/>
+<rect x="1060" y="590" width="330" height="120" rx="40" fill="#E6F4EA" stroke="#2F7D32"/>
+</g>
+<g text-anchor="middle">
+<text x="115" y="408" font-weight="bold">OFF</text>
+<text x="395" y="392" font-weight="bold">INIT</text><text x="395" y="420" font-size="17">set pin modes,</text><text x="395" y="442" font-size="17">Serial 9600</text>
+<text x="740" y="385" fill="#fff" font-weight="bold">SENSE</text><text x="740" y="415" fill="#D9EAF7" font-size="17">measure d (HC-SR04)</text><text x="740" y="440" fill="#D9EAF7" font-size="17">read m (A0)</text>
+<text x="1225" y="140" font-weight="bold" fill="#C62828">WATER ALERT</text><text x="1225" y="172" font-size="18">buzzer ON continuously</text>
+<text x="1225" y="390" font-weight="bold" fill="#EF6C00">OBSTACLE ALERT</text><text x="1225" y="422" font-size="18">beep 50 ms, then wait g ms</text>
+<text x="1225" y="640" font-weight="bold" fill="#2F7D32">CLEAR</text><text x="1225" y="672" font-size="18">buzzer OFF</text>
+</g>
+<g stroke="#333" stroke-width="3" fill="none" marker-end="url(#ar)">
+<line x1="190" y1="400" x2="286" y2="400"/>
+<line x1="500" y1="400" x2="616" y2="400"/>
+<polyline points="860,360 960,150 1056,150"/>
+<line x1="860" y1="400" x2="1056" y2="400"/>
+<polyline points="860,440 960,650 1056,650"/>
+<polyline points="1390,150 1480,150 1480,780 740,780 740,474"/>
+<line x1="1390" y1="400" x2="1480" y2="400" marker-end="none"/>
+<line x1="1390" y1="650" x2="1480" y2="650" marker-end="none"/>
+</g>
+<g font-size="18" fill="#B23" font-style="italic">
+<text x="238" y="375" text-anchor="middle">switch ON</text>
+<text x="558" y="388" text-anchor="middle">done</text>
+<text x="905" y="225" text-anchor="end">m &lt; 500</text>
+<text x="958" y="300" text-anchor="middle">m ≥ 500 and</text><text x="958" y="322" text-anchor="middle">0 &lt; d &lt; 50 cm</text>
+<text x="905" y="590" text-anchor="end">m ≥ 500 and</text><text x="905" y="612" text-anchor="end">(d = 0 or d ≥ 50)</text>
+<text x="1110" y="770" text-anchor="middle">after 30 ms delay → next loop</text>
+</g>
+<text x="115" y="500" text-anchor="middle" font-size="16" fill="#555">switch OFF from</text>
+<text x="115" y="520" text-anchor="middle" font-size="16" fill="#555">any state</text>
+</svg>
