@@ -63,7 +63,7 @@ A PVC-pipe cane fitted with:
 | 5 | Buzzer (black, round, 2-pin) | Audio alert. The code assumes an **active** buzzer | Yes; type **[to verify]** |
 | 6 | 18650 Li-ion cell, 3.7 V 1200 mAh (HONGLI) in a 1-cell holder | Power source | Yes |
 | 7 | Rocker switch (I/O) | Turns power on and off | Yes |
-| 8 | Electrolytic capacitor near the Nano (likely 220 µF or 470 µF from the bill) | Smooths the supply voltage during buzzer and sensor current spikes | Likely |
+| 8 | Electrolytic capacitor, 220 µF 50 V, soldered across the Nano's 5V and GND | Smooths the supply voltage during buzzer and sensor current spikes | Likely |
 | 9 | PVC pipe, jumper wires, berg strips, hot glue, cable tie | Body and mounting | Yes |
 | – | IRLZ44N MOSFET, 1 A fuse + holder, JST connector | On the purchase bill but **not visible** in the photos | **[to verify]** |
 | – | Vibration motor | Mentioned in the code and the old README, but **not on the bill and not visible** | **Not fitted** |
