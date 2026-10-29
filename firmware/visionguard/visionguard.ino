@@ -1,32 +1,36 @@
 // VisionGuard Smart Cane - obstacle + wet-surface warning
-// Board: Arduino Nano (ATmega328P)
+// Board: Arduino Nano (ATmega328P), new bootloader -> Processor "ATmega328P"
+// Team: S Darshan (25BCE2883), Tanay Agarwal (25BCE2475)
 //
-// PROVISIONAL: based on the original sketch in
-// firmware/original/visionguard_original. Same pins, same thresholds,
-// same alert priority. Pin numbers are taken from that sketch and still
-// have to be confirmed on the real wiring (see docs/REVIEW1_PREP.md).
+// What it does:
+//   1. Water at the tip   -> continuous beep   (highest priority)
+//   2. Obstacle < 50 cm   -> short beeps, faster when closer
+//   3. Otherwise          -> silent
 //
-// Changes from the original:
-//   1. pulseIn() has a 30 ms timeout, so a missed echo no longer freezes
-//      the loop for 1 second (the default timeout).
-//   2. Distance is clamped before map(), so the beep gap always stays
-//      between 50 ms and 400 ms.
-//   3. Serial Monitor prints the alert state, which helps during the demo.
+// Calibration: open Serial Monitor at 9600, note "Soil Value" dry and wet,
+// then set WET_ON_THRESHOLD between them (see comment below).
 
 // Pin Configurations
 #define TRIG_PIN 5
 #define ECHO_PIN 6
 #define SOIL_PIN A0
 #define BUZZER_PIN 2   // Active buzzer (beeps when the pin is HIGH)
-#define VIB_PIN 3      // Vibration output - no motor confirmed in the hardware yet.
-                       // Never connect a motor straight to this pin; use the
-                       // IRLZ44N MOSFET + flyback diode as a driver.
+#define VIB_PIN 3      // Reserved for a vibration motor - connect it through
+                       // the IRLZ44N MOSFET with a flyback diode, never directly.
 
-// Calibration Thresholds
-const int OBSTACLE_DISTANCE_THRESHOLD = 50; // Distance in cm
-const int MIN_DISTANCE = 2;                 // HC-SR04 cannot measure closer than ~2 cm
-const int WET_SOIL_THRESHOLD = 500;         // Adjust based on sensor readings (Lower = Wetter)
-const unsigned long ECHO_TIMEOUT_US = 30000; // ~5 m round trip; longer means "nothing in range"
+// Settings
+const int OBSTACLE_DISTANCE_THRESHOLD = 50;   // cm
+const int MIN_DISTANCE = 2;                   // HC-SR04 cannot measure closer than ~2 cm
+const unsigned long ECHO_TIMEOUT_US = 30000;  // ~5 m round trip; longer means "nothing in range"
+
+// Water thresholds (dry ~1023, wet = lower).
+// Set WET_ON_THRESHOLD about halfway between your dry and wet readings.
+// WET_OFF_THRESHOLD is a little higher so the alarm does not flicker (hysteresis).
+const int WET_ON_THRESHOLD = 500;
+const int WET_OFF_THRESHOLD = 550;
+const int MOISTURE_SAMPLES = 4;               // readings averaged to reduce noise
+
+bool isWet = false;
 
 void setup() {
   Serial.begin(9600);
@@ -38,6 +42,8 @@ void setup() {
 
   digitalWrite(BUZZER_PIN, LOW);
   digitalWrite(VIB_PIN, LOW);
+
+  Serial.println("VisionGuard ready");
 }
 
 // Returns distance in cm, or 0 if no echo came back in time
@@ -53,44 +59,61 @@ int readDistanceCm() {
   return duration * 0.034 / 2;
 }
 
+// Average a few ADC readings so one noisy value cannot trigger the alarm
+int readMoisture() {
+  long total = 0;
+  for (int i = 0; i < MOISTURE_SAMPLES; i++) {
+    total += analogRead(SOIL_PIN);
+  }
+  return total / MOISTURE_SAMPLES;
+}
+
+void alertsOn() {
+  digitalWrite(BUZZER_PIN, HIGH);
+  digitalWrite(VIB_PIN, HIGH);
+}
+
 void alertsOff() {
   digitalWrite(BUZZER_PIN, LOW);
   digitalWrite(VIB_PIN, LOW);
 }
 
 void loop() {
-  // 1. Read Distance from Ultrasonic Sensor
+  // 1. Read sensors
   int distance = readDistanceCm();
+  int soilMoisture = readMoisture();
 
-  // 2. Read Soil Moisture Level (dry ~1023, wet = lower)
-  int soilMoisture = analogRead(SOIL_PIN);
+  // 2. Water detection with hysteresis
+  if (soilMoisture < WET_ON_THRESHOLD) {
+    isWet = true;
+  } else if (soilMoisture > WET_OFF_THRESHOLD) {
+    isWet = false;
+  }
 
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.print(" cm | Soil Value: ");
   Serial.print(soilMoisture);
 
-  // 3. Alert Logic
-  if (soilMoisture < WET_SOIL_THRESHOLD) {
-    // Priority 1: Water/Wet Mud Detected - Continuous Warning
+  // 3. Alert logic - water is checked first, so it always has priority
+  if (isWet) {
+    // Priority 1: water / wet mud - continuous warning
     Serial.println(" | ALERT: WATER");
-    digitalWrite(BUZZER_PIN, HIGH);
-    digitalWrite(VIB_PIN, HIGH);
+    alertsOn();
   }
   else if (distance > 0 && distance < OBSTACLE_DISTANCE_THRESHOLD) {
-    // Priority 2: Obstacle Detected - closer obstacle = faster beeping
+    // Priority 2: obstacle - closer obstacle = shorter gap = faster beeping
     Serial.println(" | ALERT: OBSTACLE");
     int clamped = constrain(distance, MIN_DISTANCE, OBSTACLE_DISTANCE_THRESHOLD);
     int delayTime = map(clamped, MIN_DISTANCE, OBSTACLE_DISTANCE_THRESHOLD, 50, 400);
 
-    digitalWrite(BUZZER_PIN, HIGH);
-    digitalWrite(VIB_PIN, HIGH);
-    delay(50); // Sharp beep
+    alertsOn();
+    delay(50);        // Sharp beep
     alertsOff();
-    delay(delayTime); // Dynamic wait interval
+    delay(delayTime); // Gap: 50 ms (very close) to 400 ms (at 50 cm)
   }
   else {
-    // Path Clear
+    // Path clear
     Serial.println(" | CLEAR");
     alertsOff();
   }
