@@ -1,5 +1,6 @@
 // VisionGuard Smart Cane - obstacle + wet-surface warning
 // Board: Arduino Nano (ATmega328P), new bootloader -> Processor "ATmega328P"
+// Wiring: Trig A0, Echo A1, moisture A2, buzzer D13
 // Team: S Darshan (25BCE2883), Tanay Agarwal (25BCE2475)
 //
 // What it does:
@@ -10,11 +11,11 @@
 // Calibration: open Serial Monitor at 9600, note "Soil Value" dry and wet,
 // then set WET_ON_THRESHOLD between them (see comment below).
 
-// Pin Configurations
-#define TRIG_PIN 5
-#define ECHO_PIN 6
-#define SOIL_PIN A0
-#define BUZZER_PIN 2   // Active buzzer (beeps when the pin is HIGH)
+// Pin Configurations (matches the actual wiring on the cane)
+#define TRIG_PIN A0    // HC-SR04 Trig  (orange wire) - analog pins work as digital pins too
+#define ECHO_PIN A1    // HC-SR04 Echo  (yellow wire)
+#define SOIL_PIN A2    // LM393 module A0 output (grey wire)
+#define BUZZER_PIN 13  // Active buzzer, soldered on D13 (minus leg to GND)
 #define VIB_PIN 3      // Reserved for a vibration motor - connect it through
                        // the IRLZ44N MOSFET with a flyback diode, never directly.
 
